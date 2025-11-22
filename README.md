@@ -9,14 +9,25 @@
 - **收藏夹**：将喜欢的卡片落地到 JSON 文件，便于在移动端或桌面端持久化。
 
 ## 本地运行
-1. 确保使用 Python 3.11+（无需额外依赖）。
-2. 设置 `PYTHONPATH=src` 以便找到模块，然后运行命令：
+0️⃣ 快速体验（单条命令）
+
+```bash
+PYTHONPATH=src python -m world_window.cli daily --limit 3
+```
+
+命令会抓取新闻（离线自动用示例数据）、组装卡片并在终端输出包含 AI 图像提示的结果。
+
+1️⃣ 详细步骤
+
+1. 准备环境：使用 Python 3.11+，无需额外依赖或安装包。
+2. 运行时设置 `PYTHONPATH=src` 让解释器找到模块。
+3. 根据需求选择命令：
 
 ```bash
 # 获取今日热点（默认 5 张卡片）
 PYTHONPATH=src python -m world_window.cli daily --limit 5
 
-# 模拟滑到第六张后继续获取更多卡片
+# 模拟“滑到第六张后继续加载更多”
 PYTHONPATH=src python -m world_window.cli more --offset 5 --batch 5
 
 # 获取时顺便收藏指定序号的卡片
@@ -26,7 +37,7 @@ PYTHONPATH=src python -m world_window.cli daily --favorite 1 3
 PYTHONPATH=src python -m world_window.cli favorites
 ```
 
-默认收藏文件为 `world_window_favorites.json`，可通过 `--store` 参数自定义位置。
+默认收藏文件为 `world_window_favorites.json`，可通过 `--store` 参数自定义位置（便于在移动端或桌面端持久化收藏）。
 
 ## 代码结构
 - `src/world_window/news_fetcher.py`：RSS 抓取与离线示例数据。
