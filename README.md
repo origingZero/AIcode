@@ -39,6 +39,22 @@ PYTHONPATH=src python -m world_window.cli favorites
 
 默认收藏文件为 `world_window_favorites.json`，可通过 `--store` 参数自定义位置（便于在移动端或桌面端持久化收藏）。
 
+2️⃣ 打开可视化界面
+
+如果想看到“滑卡片 + 收藏”的完整视觉体验，可启动内置的轻量 Web 端：
+
+```bash
+PYTHONPATH=src python -m world_window.server --port 8000
+```
+
+然后在浏览器访问 `http://localhost:8000`，你会看到：
+
+- 顶部区域：刷新今日卡片、加载更多、查看收藏按钮；
+- 卡片流：每张卡片展示标题、摘要、AI 提示词、随机色板与原文链接；
+- 右侧收藏栏：点击卡片上的“收藏”即可即时更新收藏夹（使用同一个 JSON 存储）。
+
+同样可用 `--store` 参数重定向收藏文件，或通过 `--host/--port` 配置对外访问。
+
 ## 代码结构
 - `src/world_window/news_fetcher.py`：RSS 抓取与离线示例数据。
 - `src/world_window/image_generator.py`：根据新闻摘要生成图像提示、色板与随机种子。
