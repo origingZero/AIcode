@@ -116,10 +116,21 @@ button.link {
 }
 
 .card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+  column-count: 3;
+  column-gap: 16px;
   margin-top: 12px;
+}
+
+@media (max-width: 1280px) {
+  .card-grid {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 760px) {
+  .card-grid {
+    column-count: 1;
+  }
 }
 
 .card {
@@ -133,6 +144,8 @@ button.link {
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow);
+  break-inside: avoid;
+  margin-bottom: 16px;
 }
 
 .card::before {
