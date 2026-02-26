@@ -15,6 +15,7 @@ class GeneratedImage:
     prompt: str
     palette: str
     seed: int
+    image_url: str
 
 
 class ImageGenerator:
@@ -33,14 +34,16 @@ class ImageGenerator:
         prompt = self.build_prompt(stories)
         seed = self._stable_seed(prompt)
         palette = self._palette_from_seed(seed)
-        return GeneratedImage(prompt=prompt, palette=palette, seed=seed)
+        image_url = self._image_url_from_seed(seed)
+        return GeneratedImage(prompt=prompt, palette=palette, seed=seed, image_url=image_url)
 
     def generate_for_story(self, story: NewsItem) -> GeneratedImage:
         """Generate image metadata for a single news story."""
         prompt = self._compact_story(story)
         seed = self._stable_seed(prompt)
         palette = self._palette_from_seed(seed)
-        return GeneratedImage(prompt=prompt, palette=palette, seed=seed)
+        image_url = self._image_url_from_seed(seed)
+        return GeneratedImage(prompt=prompt, palette=palette, seed=seed, image_url=image_url)
 
     def _compact_story(self, story: NewsItem) -> str:
         return f"{story.title} - {story.summary[:60]}" if story.summary else story.title
@@ -52,3 +55,6 @@ class ImageGenerator:
     def _palette_from_seed(self, seed: int) -> str:
         colors = ["#007AFF", "#FF2D55", "#FFCC00", "#34C759", "#5856D6", "#FF9500"]
         return colors[seed % len(colors)]
+
+    def _image_url_from_seed(self, seed: int) -> str:
+        return f"https://picsum.photos/seed/{seed}/600/340"

@@ -28,6 +28,7 @@ def _card_to_dict(card) -> Dict[str, object]:
         "image_prompt": card.image_prompt,
         "image_palette": card.image_palette,
         "image_seed": card.image_seed,
+        "image_url": getattr(card, "image_url", ""),
     }
 
 

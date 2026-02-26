@@ -7,6 +7,7 @@ export interface CardData {
   image_prompt: string;
   image_palette: string;
   image_seed: number;
+  image_url: string;
 }
 
 export type Locale = 'zh' | 'en';

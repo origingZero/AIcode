@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { CardData } from '../../types';
 import { useI18n } from '../../i18n';
 import { pickColor, formatTime, stripHtml, truncate } from '../../utils/helpers';
@@ -13,36 +14,48 @@ interface Props {
 
 export default function NewsCard({ card, index, onToggleFavorite, isFavorited }: Props) {
   const { t } = useI18n();
+  const [imgError, setImgError] = useState(false);
   const color = pickColor(card.image_seed);
   const cleanTitle = stripHtml(card.title);
-  const cleanSummary = truncate(stripHtml(card.summary), 160);
-  const cleanPrompt = truncate(stripHtml(card.image_prompt), 100);
+  const cleanSummary = truncate(stripHtml(card.summary), 140);
+  const cleanPrompt = truncate(stripHtml(card.image_prompt), 80);
 
   return (
     <article
       className={`${styles.card} ${styles.animateIn}`}
       style={{ animationDelay: `${index * 60}ms` }}
     >
-      <div
-        className={styles.colorBar}
-        style={{ background: `linear-gradient(90deg, ${color}, ${color}88)` }}
-      />
+      <div className={styles.imageWrap}>
+        {card.image_url && !imgError ? (
+          <img
+            className={styles.image}
+            src={card.image_url}
+            alt=""
+            loading="lazy"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div
+            className={styles.imageFallback}
+            style={{ background: `linear-gradient(135deg, ${color}44, ${color}cc)` }}
+          />
+        )}
+        <div className={styles.imageOverlay} />
+        <span className={styles.badge}>{t.card.aiBadge}</span>
+      </div>
+
       <div className={styles.body}>
-        <div className={styles.header}>
-          <h3 className={styles.title}>{cleanTitle}</h3>
-          <span className={styles.badge}>{t.card.aiBadge}</span>
-        </div>
+        <h3 className={styles.title}>{cleanTitle}</h3>
         <p className={styles.summary}>{cleanSummary}</p>
         <p className={styles.prompt}>
           <strong>{t.card.prompt}</strong>{'　'}{cleanPrompt}
         </p>
-        <div className={styles.meta}>
-          <span className={styles.metaTag}>
-            <ClockIcon />
-            {formatTime(card.published, t.card.unknownTime)}
-          </span>
-        </div>
+        <span className={styles.time}>
+          <ClockIcon />
+          {formatTime(card.published, t.card.unknownTime)}
+        </span>
       </div>
+
       <div className={styles.footer}>
         <button
           className={`${isFavorited ? 'btn-saved' : 'btn-primary'} ${styles.favBtn}`}

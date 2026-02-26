@@ -19,6 +19,7 @@ class Card:
     image_prompt: str
     image_palette: str
     image_seed: int
+    image_url: str
 
 
 class CardService:
@@ -49,4 +50,5 @@ class CardService:
             image_prompt=image.prompt,
             image_palette=image.palette,
             image_seed=image.seed,
+            image_url=image.image_url,
         )
