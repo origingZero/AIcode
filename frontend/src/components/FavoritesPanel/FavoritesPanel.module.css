@@ -82,10 +82,30 @@
 }
 
 .itemTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
   margin: 0 0 4px;
   font-size: 14px;
   font-weight: 600;
   line-height: 1.4;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.itemTitle:hover {
+  color: var(--primary);
+}
+
+.itemTitle svg {
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.item:hover .itemTitle svg {
+  opacity: 0.6;
 }
 
 .itemSummary {

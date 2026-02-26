@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import type { CardData } from '../../types';
 import { useI18n } from '../../i18n';
 import { pickColor, formatTime, stripHtml, truncate } from '../../utils/helpers';
-import { ClockIcon } from '../Icons';
+import { ClockIcon, ExternalLinkIcon } from '../Icons';
 import styles from './FavoritesPanel.module.css';
 
 interface Props {
@@ -33,7 +33,15 @@ const FavoritesPanel = forwardRef<HTMLDivElement, Props>(
                 <div key={card.id} className={styles.item}>
                   <div className={styles.itemBar} style={{ background: color }} />
                   <div className={styles.itemContent}>
-                    <h4 className={styles.itemTitle}>{stripHtml(card.title)}</h4>
+                    <a
+                      className={styles.itemTitle}
+                      href={card.link}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {stripHtml(card.title)}
+                      <ExternalLinkIcon width={11} height={11} />
+                    </a>
                     <p className={styles.itemSummary}>{truncate(stripHtml(card.summary), 80)}</p>
                     <div className={styles.itemFooter}>
                       <span className={styles.itemTime}>
