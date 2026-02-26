@@ -35,6 +35,13 @@ class ImageGenerator:
         palette = self._palette_from_seed(seed)
         return GeneratedImage(prompt=prompt, palette=palette, seed=seed)
 
+    def generate_for_story(self, story: NewsItem) -> GeneratedImage:
+        """Generate image metadata for a single news story."""
+        prompt = self._compact_story(story)
+        seed = self._stable_seed(prompt)
+        palette = self._palette_from_seed(seed)
+        return GeneratedImage(prompt=prompt, palette=palette, seed=seed)
+
     def _compact_story(self, story: NewsItem) -> str:
         return f"{story.title} - {story.summary[:60]}" if story.summary else story.title
 

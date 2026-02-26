@@ -5,7 +5,7 @@ import uuid
 from dataclasses import dataclass
 from typing import List
 
-from .image_generator import GeneratedImage, ImageGenerator
+from .image_generator import ImageGenerator
 from .news_fetcher import NewsFetcher, NewsItem
 
 
@@ -30,17 +30,16 @@ class CardService:
 
     def daily_cards(self, limit: int = 5) -> List[Card]:
         stories = self.news_fetcher.fetch(limit=limit)
-        image = self.image_generator.generate(stories)
-        return [self._build_card(story, image) for story in stories]
+        return [self._build_card(story) for story in stories]
 
     def more_cards(self, offset: int = 5, batch: int = 5) -> List[Card]:
         stories = self.news_fetcher.fetch(limit=offset + batch)[offset:offset + batch]
         if not stories:
             return []
-        image = self.image_generator.generate(stories)
-        return [self._build_card(story, image) for story in stories]
+        return [self._build_card(story) for story in stories]
 
-    def _build_card(self, story: NewsItem, image: GeneratedImage) -> Card:
+    def _build_card(self, story: NewsItem) -> Card:
+        image = self.image_generator.generate_for_story(story)
         return Card(
             id=str(uuid.uuid4()),
             title=story.title,
