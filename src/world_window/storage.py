@@ -22,7 +22,11 @@ class CardStorage:
         if not self.path.exists():
             return []
         raw = json.loads(self.path.read_text(encoding="utf-8"))
-        return [Card(**item) for item in raw]
+        cards = []
+        for item in raw:
+            item.setdefault("image_url", "")
+            cards.append(Card(**item))
+        return cards
 
     def append(self, card: Card) -> None:
         cards = self.load()

@@ -1,7 +1,7 @@
 """Combine news and generated images into dynamic cards."""
 from __future__ import annotations
 
-import uuid
+import hashlib
 from dataclasses import dataclass
 from typing import List
 
@@ -39,10 +39,15 @@ class CardService:
             return []
         return [self._build_card(story) for story in stories]
 
+    @staticmethod
+    def _stable_id(story: NewsItem) -> str:
+        key = f"{story.title}|{story.link}"
+        return hashlib.sha256(key.encode("utf-8")).hexdigest()[:16]
+
     def _build_card(self, story: NewsItem) -> Card:
         image = self.image_generator.generate_for_story(story)
         return Card(
-            id=str(uuid.uuid4()),
+            id=self._stable_id(story),
             title=story.title,
             summary=story.summary,
             link=story.link,
