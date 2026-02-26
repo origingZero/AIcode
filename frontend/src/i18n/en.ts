@@ -13,7 +13,6 @@ const en = {
   card: {
     aiBadge: 'AI',
     prompt: 'Prompt',
-    seed: 'Seed',
     favorite: 'Save',
     favorited: 'Saved',
     unfavorite: 'Unsave',

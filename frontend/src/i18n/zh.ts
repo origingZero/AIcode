@@ -13,7 +13,6 @@ const zh = {
   card: {
     aiBadge: 'AI',
     prompt: 'Prompt',
-    seed: '种子',
     favorite: '收藏',
     favorited: '已收藏',
     unfavorite: '取消收藏',

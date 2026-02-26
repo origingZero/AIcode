@@ -121,13 +121,6 @@
   border: 1px solid var(--border);
 }
 
-.colorDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
 .footer {
   padding: 14px 20px;
   border-top: 1px solid var(--border);

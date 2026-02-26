@@ -1,7 +1,7 @@
 import type { CardData } from '../../types';
 import { useI18n } from '../../i18n';
 import { pickColor, formatTime, stripHtml, truncate } from '../../utils/helpers';
-import { HeartIcon, HeartFilledIcon, ExternalLinkIcon, ClockIcon, ImageIcon } from '../Icons';
+import { HeartIcon, HeartFilledIcon, ExternalLinkIcon, ClockIcon } from '../Icons';
 import styles from './NewsCard.module.css';
 
 interface Props {
@@ -40,17 +40,6 @@ export default function NewsCard({ card, index, onToggleFavorite, isFavorited }:
           <span className={styles.metaTag}>
             <ClockIcon />
             {formatTime(card.published, t.card.unknownTime)}
-          </span>
-          <span className={styles.metaTag}>
-            <ImageIcon />
-            {t.card.seed} {card.image_seed}
-          </span>
-          <span
-            className={styles.metaTag}
-            style={{ color, borderColor: `${color}33`, background: `${color}0d` }}
-          >
-            <span className={styles.colorDot} style={{ background: color }} />
-            {color}
           </span>
         </div>
       </div>
