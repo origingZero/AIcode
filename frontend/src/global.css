@@ -112,8 +112,14 @@ button:disabled {
 
 .btn-saved {
   background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+  color: white;
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
-  pointer-events: none;
+}
+
+.btn-saved:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  transform: translateY(-2px);
 }
 
 .btn-ghost,

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import type { CardData } from '../../types';
 import { useI18n } from '../../i18n';
 import { pickColor, formatTime, stripHtml, truncate } from '../../utils/helpers';
@@ -8,22 +7,16 @@ import styles from './NewsCard.module.css';
 interface Props {
   card: CardData;
   index: number;
-  onFavorite: (card: CardData) => Promise<void>;
+  onToggleFavorite: (card: CardData) => Promise<void>;
+  isFavorited: boolean;
 }
 
-export default function NewsCard({ card, index, onFavorite }: Props) {
+export default function NewsCard({ card, index, onToggleFavorite, isFavorited }: Props) {
   const { t } = useI18n();
-  const [saved, setSaved] = useState(false);
   const color = pickColor(card.image_seed);
   const cleanTitle = stripHtml(card.title);
   const cleanSummary = truncate(stripHtml(card.summary), 160);
   const cleanPrompt = truncate(stripHtml(card.image_prompt), 100);
-
-  const handleFavorite = async () => {
-    if (saved) return;
-    setSaved(true);
-    await onFavorite(card);
-  };
 
   return (
     <article
@@ -63,12 +56,13 @@ export default function NewsCard({ card, index, onFavorite }: Props) {
       </div>
       <div className={styles.footer}>
         <button
-          className={`btn-primary ${styles.favBtn} ${saved ? 'btn-saved' : ''}`}
-          onClick={handleFavorite}
-          disabled={saved}
+          className={`${isFavorited ? 'btn-saved' : 'btn-primary'} ${styles.favBtn}`}
+          onClick={() => onToggleFavorite(card)}
         >
-          {saved ? <HeartFilledIcon width={14} height={14} /> : <HeartIcon width={14} height={14} />}
-          {saved ? t.card.favorited : t.card.favorite}
+          {isFavorited
+            ? <><HeartFilledIcon width={14} height={14} />{t.card.favorited}</>
+            : <><HeartIcon width={14} height={14} />{t.card.favorite}</>
+          }
         </button>
         <a className="btn-ghost" href={card.link} target="_blank" rel="noreferrer">
           <ExternalLinkIcon />

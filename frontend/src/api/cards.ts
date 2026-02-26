@@ -25,3 +25,11 @@ export async function saveFavorite(card: CardData): Promise<void> {
     body: JSON.stringify({ card }),
   });
 }
+
+export async function deleteFavorite(cardId: string): Promise<void> {
+  await fetch('/api/favorites', {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: cardId }),
+  });
+}

@@ -1,6 +1,6 @@
 const zh = {
   app: {
-    title: '世界之窗 — AI 新闻卡片流',
+    title: '世界之窗 — AI 新闻卡片',
   },
   hero: {
     eyebrow: '世界之窗 · 每日热点可视化',
@@ -16,20 +16,23 @@ const zh = {
     seed: '种子',
     favorite: '收藏',
     favorited: '已收藏',
+    unfavorite: '取消收藏',
     viewOriginal: '原文',
     unknownTime: '未知时间',
   },
   cardGrid: {
-    title: '卡片流',
+    title: '今日热点',
     empty: '暂无卡片，点击"刷新今日卡片"开始体验。',
   },
   favorites: {
     title: '收藏夹',
     refresh: '刷新',
     empty: '尚未收藏任何卡片',
+    remove: '移除',
   },
   toast: {
     favorited: '已添加到收藏夹',
+    unfavorited: '已从收藏夹移除',
     noMore: '没有更多卡片了',
     loading: '加载中…',
   },

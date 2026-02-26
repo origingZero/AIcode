@@ -7,10 +7,11 @@ import styles from './CardGrid.module.css';
 interface Props {
   cards: CardData[];
   loading: boolean;
-  onFavorite: (card: CardData) => Promise<void>;
+  onToggleFavorite: (card: CardData) => Promise<void>;
+  isFavorited: (cardId: string) => boolean;
 }
 
-export default function CardGrid({ cards, loading, onFavorite }: Props) {
+export default function CardGrid({ cards, loading, onToggleFavorite, isFavorited }: Props) {
   const { t } = useI18n();
 
   const skeletons = useMemo(
@@ -30,7 +31,13 @@ export default function CardGrid({ cards, loading, onFavorite }: Props) {
               <div key={s.key} className={styles.skeleton} style={{ minHeight: s.height }} />
             ))
           : cards.map((card, i) => (
-              <NewsCard key={card.id} card={card} index={i} onFavorite={onFavorite} />
+              <NewsCard
+                key={card.id}
+                card={card}
+                index={i}
+                onToggleFavorite={onToggleFavorite}
+                isFavorited={isFavorited(card.id)}
+              />
             ))}
       </div>
       {!loading && cards.length === 0 && (
