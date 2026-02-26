@@ -1,0 +1,80 @@
+import { useState } from 'react';
+import type { CardData } from '../../types';
+import { useI18n } from '../../i18n';
+import { pickColor, formatTime, stripHtml, truncate } from '../../utils/helpers';
+import { HeartIcon, HeartFilledIcon, ExternalLinkIcon, ClockIcon, ImageIcon } from '../Icons';
+import styles from './NewsCard.module.css';
+
+interface Props {
+  card: CardData;
+  index: number;
+  onFavorite: (card: CardData) => Promise<void>;
+}
+
+export default function NewsCard({ card, index, onFavorite }: Props) {
+  const { t } = useI18n();
+  const [saved, setSaved] = useState(false);
+  const color = pickColor(card.image_seed);
+  const cleanTitle = stripHtml(card.title);
+  const cleanSummary = truncate(stripHtml(card.summary), 160);
+  const cleanPrompt = truncate(stripHtml(card.image_prompt), 100);
+
+  const handleFavorite = async () => {
+    if (saved) return;
+    setSaved(true);
+    await onFavorite(card);
+  };
+
+  return (
+    <article
+      className={`${styles.card} ${styles.animateIn}`}
+      style={{ animationDelay: `${index * 60}ms` }}
+    >
+      <div
+        className={styles.colorBar}
+        style={{ background: `linear-gradient(90deg, ${color}, ${color}88)` }}
+      />
+      <div className={styles.body}>
+        <div className={styles.header}>
+          <h3 className={styles.title}>{cleanTitle}</h3>
+          <span className={styles.badge}>{t.card.aiBadge}</span>
+        </div>
+        <p className={styles.summary}>{cleanSummary}</p>
+        <p className={styles.prompt}>
+          <strong>{t.card.prompt}</strong>{'　'}{cleanPrompt}
+        </p>
+        <div className={styles.meta}>
+          <span className={styles.metaTag}>
+            <ClockIcon />
+            {formatTime(card.published, t.card.unknownTime)}
+          </span>
+          <span className={styles.metaTag}>
+            <ImageIcon />
+            {t.card.seed} {card.image_seed}
+          </span>
+          <span
+            className={styles.metaTag}
+            style={{ color, borderColor: `${color}33`, background: `${color}0d` }}
+          >
+            <span className={styles.colorDot} style={{ background: color }} />
+            {color}
+          </span>
+        </div>
+      </div>
+      <div className={styles.footer}>
+        <button
+          className={`btn-primary ${styles.favBtn} ${saved ? 'btn-saved' : ''}`}
+          onClick={handleFavorite}
+          disabled={saved}
+        >
+          {saved ? <HeartFilledIcon width={14} height={14} /> : <HeartIcon width={14} height={14} />}
+          {saved ? t.card.favorited : t.card.favorite}
+        </button>
+        <a className="btn-ghost" href={card.link} target="_blank" rel="noreferrer">
+          <ExternalLinkIcon />
+          {t.card.viewOriginal}
+        </a>
+      </div>
+    </article>
+  );
+}
